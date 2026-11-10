@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>解压工坊 · Relax Workshop</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;color:#4a4458;
+ background:linear-gradient(160deg,#ffe9f3 0%,#e3f2ff 45%,#e8ffe9 100%);
+ user-select:none;-webkit-user-select:none;transition:background .5s}
+#app{position:fixed;inset:0}
+#app canvas{display:block;cursor:pointer;touch-action:none}
+/* 顶部 */
+#top{position:fixed;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;z-index:10;pointer-events:none}
+.card{pointer-events:auto;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border-radius:20px;box-shadow:0 8px 28px rgba(120,105,160,.16)}
+#brand{padding:10px 18px}
+#brand h1{font-size:19px;letter-spacing:3px}
+#brand p{font-size:11px;opacity:.6;margin-top:2px;letter-spacing:1px}
+#hud{display:flex;align-items:center;gap:10px;padding:10px 14px}
+#scene-name{font-size:13px;font-weight:700;white-space:nowrap}
+#bar{width:110px;height:8px;background:#eee6f4;border-radius:99px;overflow:hidden}
+#bar i{display:block;height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#ff8fb8,#8fd0ff);transition:width .2s}
+#prog-text{font-size:11px;opacity:.7;min-width:88px;text-align:right;white-space:nowrap}
+.icon-btn{pointer-events:auto;border:none;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);width:40px;height:40px;border-radius:14px;font-size:17px;cursor:pointer;box-shadow:0 8px 28px rgba(120,105,160,.16);transition:transform .15s}
+.icon-btn:hover{transform:translateY(-2px)}
+#btns{display:flex;gap:8px;pointer-events:auto}
+/* 提示 */
+#hint{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:rgba(74,68,88,.75);color:#fff;
+ padding:8px 18px;border-radius:99px;font-size:13px;letter-spacing:1px;z-index:10;pointer-events:none;
+ backdrop-filter:blur(4px);white-space:nowrap}
+/* 场景坞：单行，放不下时横向滑动 */
+#dock{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:8px;flex-wrap:nowrap;justify-content:flex-start;
+ max-width:min(96vw,880px);z-index:10;overflow-x:auto;padding:4px 6px;scrollbar-width:none;-ms-overflow-style:none}
+#dock::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto}
+.chip{border:none;cursor:pointer;padding:9px 13px;border-radius:16px;font-size:12.5px;font-family:inherit;color:#6a617c;
+ background:rgba(255,255,255,.72);backdrop-filter:blur(10px);box-shadow:0 4px 16px rgba(120,105,160,.14);
+ display:flex;align-items:center;gap:5px;transition:all .18s}
+.chip:hover{transform:translateY(-3px)}
+.chip.active{background:linear-gradient(135deg,#ff9ebf,#8fd0ff);color:#fff;box-shadow:0 8px 20px rgba(255,140,180,.4)}
+.chip .em{font-size:16px}
+/* toast */
+#toast{position:fixed;left:50%;top:26%;transform:translate(-50%,-50%) scale(.8);background:rgba(255,255,255,.92);
+ color:#ff6fa5;font-weight:800;font-size:20px;padding:16px 30px;border-radius:24px;
+ box-shadow:0 12px 40px rgba(255,120,170,.35);opacity:0;pointer-events:none;z-index:20;
+ transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+#toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+@media (max-width:640px){
+ #brand h1{font-size:15px}
+ #bar{width:64px}
+ #prog-text{min-width:70px;font-size:10px}
+ #hint{bottom:124px;font-size:12px}
+ .chip{padding:7px 9px;font-size:11px}
+ #dock{bottom:10px}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="top">
+  <div id="brand" class="card"><h1>解压工坊</h1></div>
+  <div style="display:flex;gap:8px;align-items:flex-start">
+    <div id="hud" class="card">
+      <span id="scene-name">—</span>
+      <div id="bar"><i></i></div>
+      <span id="prog-text">0%</span>
+    </div>
+    <div id="btns">
+      <button class="icon-btn" id="btn-sound" title="音效开关">🔊</button>
+      <button class="icon-btn" id="btn-reset" title="重来一次">🔄</button>
+    </div>
+  </div>
+</div>
+
+<div id="hint">加载中…</div>
+<div id="dock"></div>
+<div id="toast"></div>
+
+<!-- 经典脚本方式加载，双击 index.html（file://）即可直接游玩，无需本地服务器 -->
+<script src="./lib/three.global.js"></script>
+<script src="./js/helpers.js"></script>
+<script src="./js/particles.js"></script>
+<script src="./js/sfx.js"></script>
+<script src="./js/scenes.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
